@@ -1,7 +1,7 @@
 ---
 title: "Formative Assessment 11: Mixed-Design Repeated Measures ANOVA"
-subtitle: "BIO2105 - Biostatistics"
-author: "Your Name"
+subtitle: "BIO2105 (Section 4) - Biostatistics"
+authors: " Ayap, Princess Amberlin Mae | Domingo, Margaret | Ferrer, Phoebe Anne | Gamido, Dhen Angelo | Pepito, Yvonna Roselle"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -29,9 +29,9 @@ knitr::opts_chunk$set(
 **Authors:**  Ayap, Princess Amberlin Mae | Domingo, Margaret | Ferrer, Phoebe Anne | Gamido, Dhen Angelo | Pepito, Yvonna Roselle (Section 4)
 
 **November 22, 2026**
-
 ---
 
+# Introduction and Research Objectives
 
 ## Research Background
 
@@ -43,6 +43,17 @@ Following an accident, three rats were removed from the Thyroxin group, leaving 
 
 To determine whether rat body weight differs significantly across treatment groups and measurement occasions, and specifically to evaluate whether growth trajectories over time depend on the treatment received (**Treatment** $\times$ Time Interaction).
 
+------------------------------------------------------------------------
+
+# 1. Assumption Checking
+
+
+------------------------------------------------------------------------
+
+# 2. Assumption Checking
+
+
+------------------------------------------------------------------------
 
 # 3. Assumption Checking
 
@@ -93,3 +104,23 @@ rats_stat_2WMAnova\$`Mauchly's Test for Sphericity`
 # Since Mauchly's test yielded a p = 1.41e-17 (p < 0.001) < 0.05, sphericity was violated therefore below is Greenhouse-Geisser correction being applied.
 rats_stat_2WMAnova\$`Sphericity Corrections`
 ```
+
+## 4.5 Summary of Assumptions
+
+The majority of the dataset met the assumptions for a mixed-design ANOVA, although on sphericity the Greenhouse-Geisser correction was applied. Normality was met across 14 out of 15 treatment-by-time cells ($p > 0.05$), there was a single data that stood out a bit (in Treatment 3 at Week 1 ($W = 0.789, p = 0.0318$)), although since the Q-Q plots still aligned well overall and mixed ANOVA handles slight normality deviations, this assumption holds. Rat `id = 19` (Treatment 2) had two outliers at Week 1 ($y = 61$) and Week 2 ($y = 78$), although neither was tagged as extreme (`is.extreme = FALSE`), so technically no extreme outliers came from this dataset. Both homogeneity of variances (Levene's test, $p = 0.124\text{–}0.672$) and homogeneity of covariance matrices (Box's M test, $\chi^2(30) = 22.4, p = 0.839$ at $\alpha = 0.001$) were satisfied. Finally, Mauchly's test was significant ($W = 0.011, p = 1.41 \times 10^{-17} < 0.05$), which meant sphericity was violated and the Greenhouse-Geisser correction ($\varepsilon = 0.342$) was applied to the within-subjects ANOVA results.
+------------------------------------------------------------------------
+
+# 4. Assumption Checking
+
+
+------------------------------------------------------------------------
+
+# 5. Assumption Checking
+
+
+------------------------------------------------------------------------
+
+# 6. Assumption Checking
+
+
+------------------------------------------------------------------------
