@@ -1,1 +1,74 @@
+---
+title: "Formative Assessment 11: Mixed-Design Repeated Measures ANOVA"
+subtitle: "BIO2105 - Biostatistics"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: tango
+    code_folding: show
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 8,
+  fig.height = 5,
+  fig.align = "center"
+)
+```
+
+# 3. Assumption Checking
+
+## 3.1 Normality: Shapiro-Wilk test per cell (trt x time) and Q-Q plots
+
+```{r normality-test}
+rats %>%
+  group_by(trt, time) %>%
+  shapiro_test(y)
+
+ggqqplot(rats, "y", ggtheme = theme_bw()) +
+  facet_grid(time ~ trt)
+```
+
+## 3.2 Outliers Check
+
+```{r outliers-check}
+rats %>%
+  group_by(trt, time) %>%
+  identify_outliers(y)
+```
+
+## 3.3 Homogeneity of Variances: Levene's test at each measurement occasion
+
+```{r levenes-test}
+rats %>%
+  group_by(time) %>%
+  levene_test(y ~ trt)
+```
+
+## 3.4 Homogeneity of Covariance Matrices: Box's M test on wide-format data using α = 0.001
+
+```{r box-m-test}
+rats_wide <- rats %>%
+  pivot_wider(id_cols = c(id, trt), names_from = time, values_from = y)
+
+box_m(rats_wide[, -c(1, 2)], rats_wide\$trt)
+```
+
+## 3.5 Sphericity Test and Greenhouse-Geisser Correction
+
+```{r sphericity-test}
+rats_stat_2WMAnova <- rstatix::anova_test(data = rats, dv = y, wid = id, between = trt, within = time)
+
+rats_stat_2WMAnova\$`Mauchly's Test for Sphericity`
+
+# If p > 0.05, sphericity is met (no correction needed)
+# Since Mauchly's test yielded a p = 1.41e-17 (p < 0.001) < 0.05, sphericity was violated therefore below is Greenhouse-Geisser correction being applied.
+rats_stat_2WMAnova\$`Sphericity Corrections`
+```
