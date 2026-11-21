@@ -1,7 +1,8 @@
 # Formative Assessment 11: Mixed-Design Repeated Measures ANOVA
 ## BIO2105 - Group 2 - Biostatistics
-### Dhen Gamido, Margaret Domingo, Phoebe Ferrer, Princess Ayap, Yvonna Pepito
-November 22, 2026
+
+**Authors:**  Ayap, Princess Amberlin Mae | Domingo, Margaret | Ferrer, Phoebe Anne | Gamido, Dhen Angelo | Pepito, Yvonna Roselle (Section 4)
+**November 22, 2026**
 
 ---
 
