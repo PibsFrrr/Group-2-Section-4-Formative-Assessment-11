@@ -38,7 +38,10 @@ The dataset (`rats`) is sourced from the `nlmm` R package and originates from th
 * `Rat_Growth_Mixed_ANOVA.html`: Rendered HTML report generated from the R Markdown source.
 * `Rat_Growth_Mixed_ANOVA.pdf`: Rendered PDF version of the report.
 * `data`: Folder containing the processed data used for this report.
-  * `data/Rat_Growth_Dataset.csv`: Local CSV copy of the processed dataset.
+  * `data/Processed_Rat_Growth_Dataset.csv`: Local CSV copy of the processed dataset.
+  * `data/Raw_Rat_Growth_Dataset.csv`: Raw data exported from Rstudio from the code:
+    ```r
+    data("rats", package = "nlmm")
 
 ## How to Reproduce the Analysis
 
