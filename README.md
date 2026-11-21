@@ -43,7 +43,7 @@ The dataset (`rats`) is sourced from the `nlmm` R package and originates from th
 ## How to Reproduce the Analysis
 
 1. Clone or download this repository to your local machine.
-2. Open R or RStudio (version 4.0 or higher recommended).
+2. Open R or RStudio.
 3. Install the required R packages by running:
    ```r
    install.packages(c("nlmm", "tidyverse", "rstatix", "ggpubr"))
