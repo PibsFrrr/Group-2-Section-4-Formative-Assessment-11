@@ -7,7 +7,6 @@
 
 ---
 
-# 1. Introduction and Research Objectives
 
 ## Research Background
 
