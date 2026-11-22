@@ -136,6 +136,9 @@ rats_stat_2WMAnova$`Mauchly's Test for Sphericity`
 # Since Mauchly's test yeilded a p = 1.41e-17 (p < 0.001) < 0.05, sphericity was violated therefore below is Greenhouse-Geisser correction being applied.
 rats_stat_2WMAnova$`Sphericity Corrections`
 
+# 4.5 Summary of Assumptions
+
+#   The majority of the dataset met the assumptions for a mixed-design ANOVA, although on sphericity the Greenhouse-Geisser correction was applied. Normality was met across 14 out of 15 treatment-by-time cells ($p > 0.05$), there was a single data that stood out a bit (in Treatment 3 at Week 1 ($W = 0.789, p = 0.0318$)), although since the Q-Q plots still aligned well overall and mixed ANOVA handles slight normality deviations, this assumption holds. Rat `id = 19` (Treatment 2) had two outliers at Week 1 ($y = 61$) and Week 2 ($y = 78$), although neither was tagged as extreme (`is.extreme = FALSE`), so technically no extreme outliers came from this dataset. Both homogeneity of variances (Levene's test, $p = 0.124\text{–}0.672$) and homogeneity of covariance matrices (Box's M test, $\chi^2(30) = 22.4, p = 0.839$ at $\alpha = 0.001$) were satisfied. Finally, Mauchly's test was significant ($W = 0.011, p = 1.41 \times 10^{-17} < 0.05$), which meant sphericity was violated and the Greenhouse-Geisser correction ($\varepsilon = 0.342$) was applied to the within-subjects ANOVA results.
 
 # ==============================================================================
 # Part 4: Mixed-Design Repeated Measures ANOVA
