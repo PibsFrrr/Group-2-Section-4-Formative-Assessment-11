@@ -56,6 +56,56 @@ table(rats$trt)
 # Part 2: Descriptive Statistics & Data Visualization
 # ==============================================================================
 
+## 2.1 Descriptive Summary
+
+```{r descriptive-stats}
+rats %>%
+  group_by(trt, time) %>%
+  get_summary_stats(y, type = "mean_sd")
+
+```
+## 2.2 Visualizations
+
+```{r boxplot}
+# Boxplot across time points by treatment group
+ggboxplot(
+  rats,
+  x = "time",
+  y = "y",
+  color = "trt",
+  palette = "jco",
+  add = "jitter"
+) +
+  labs(
+    title = "Body Weight Distribution Across Weeks by Treatment",
+    x = "Measurement Occasion",
+    y = "Body Weight (grams)",
+    color = "Treatment"
+  )
+``` 
+```{r interaction-plot}
+# Interaction plot of mean body weights over time
+rats %>%
+  group_by(trt, time) %>%
+  summarise(mean_weight = mean(y), .groups = "drop") %>%
+  ggplot(aes(x = time, y = mean_weight, color = trt, group = trt)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  labs(
+    title = "Mean Growth Trajectories by Treatment Group",
+    x = "Measurement Occasion",
+    y = "Mean Body Weight (grams)",
+    color = "Treatment"
+  ) +
+  theme_minimal()
+```
+
+### Guide Questions Answers
+
+- **Baseline Highest Average:** *[Control=50kg, Thiouracil=50kg]*
+- **Growth Patterns per Group:** *[Control group had a weight gain from between 50kg to over 155kg from weeks 0 to 4, Thiouracil treatment had a weight gain spanning from 50kg to 125kg from weeks 0 to 4, Thyroxin had a weight gain spanning from 50kg to above 155kg from weeks 0 to 4]*
+- **Visual Evidence of Interaction:** *[Seen in the interacton plot that there is a positive relationship between weight and time, as time passes, weight increases steadily]* 
+------------------------------------------------------------------------
 
 
 # ==============================================================================
