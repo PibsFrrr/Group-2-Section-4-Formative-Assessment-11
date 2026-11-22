@@ -42,7 +42,7 @@ rats <- rats %>%
 str(rats)
 dim(rats)
 head(rats)
-knitr::kable(rats) 
+print(rats) 
 table(rats$trt)
 
 # Guide Question Answer
