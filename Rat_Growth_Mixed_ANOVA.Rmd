@@ -45,11 +45,9 @@ To determine whether rat body weight differs significantly across treatment grou
 
 ------------------------------------------------------------------------
 
-# 1. Assumption Checking
+# 1. Data Preparation and Exploration
 
-# 2. Data Preparation and Exploration
-
-```{r load-data}
+```{data/Processed_Rat_Growth_Dataset.csv} 
 # 1. Load required libraries
 library(nlmm)
 library(tidyverse)
@@ -57,7 +55,7 @@ library(rstatix)
 library(ggpubr)
 
 # 2. Load dataset
-data("rats", package = "nlmm")
+data("data/Processed_Rat_Growth_Dataset.csv", package = "nlmm")
 
 # 3. Format factor variables with clear labels
 rats <- rats %>%
