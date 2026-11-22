@@ -45,19 +45,19 @@ To determine whether rat body weight differs significantly across treatment grou
 
 ------------------------------------------------------------------------
 
-# 2. Data Preparation and Exploration
+# 1. Data Preparation and Exploration
 
 ```{r load-data}
-# 1. Load required libraries
+# 1.1 Load required libraries
 library(nlmm)
 library(tidyverse)
 library(rstatix)
 library(ggpubr)
 
-# 2. Load dataset
+# 1.2 Load dataset
 data("rats", package = "nlmm")
 
-# 3. Format factor variables with clear labels
+# 1.3 Format factor variables with clear labels
 rats <- rats %>%
   mutate(
     id = factor(id),
@@ -73,7 +73,7 @@ rats <- rats %>%
     )
   )
 
-# 4. Inspect data structure
+# 1.4 Inspect data structure
 str(rats)
 dim(rats)
 head(rats)
@@ -87,9 +87,9 @@ table(rats$trt)
 
 ------------------------------------------------------------------------
 
-# 3. Descriptive Statistics and Data Visualization
+# 2. Descriptive Statistics and Data Visualization
 
-## 3.1 Descriptive Summary
+## 2.1 Descriptive Summary
 
 ```{r descriptive-stats}
 rats %>%
@@ -98,7 +98,7 @@ rats %>%
 
 ```
 
-## 3.2 Visualizations
+## 2.2 Visualizations
 
 ```{r boxplot}
 # Boxplot across time points by treatment group
@@ -200,7 +200,7 @@ The majority of the dataset met the assumptions for a mixed-design ANOVA, althou
 # 4. Mixed-Design Repeated Measures ANOVA
 
 ```{r mixed-anova}
-# Fit two-way mixed-design repeated measures ANOVA
+# 4.1 Fit two-way mixed-design repeated measures ANOVA
 rats_stat_2WMAnova <- rstatic::anova_test(
   data = rats,
   dv = y,
@@ -209,10 +209,10 @@ rats_stat_2WMAnova <- rstatic::anova_test(
   within = time
 )
 
-# Display complete ANOVA output
+# 4.2 Display complete ANOVA output
 rats_stat_2WMAnova
 
-# Display Greenhouse_Geisser corrected ANOVA table
+# 4.3 Display Greenhouse_Geisser corrected ANOVA table
 rstatix::get_anova_table(rats_stat_2WMAnova)
 ```
 
