@@ -96,7 +96,6 @@ rats %>%
 # - Baseline Highest Average: [Control=50kg, Thiouracil=50kg]
 # - Growth Patterns per Group: [Control group had a weight gain from between 50kg to over 155kg from weeks 0 to 4, Thiouracil treatment had a weight gain spanning from 50kg to 125kg from weeks 0 to 4, Thyroxin had a weight gain spanning from 50kg to above 155kg from weeks 0 to 4]
 # - Visual Evidence of Interaction: [Seen in the interacton plot that there is a positive relationship between weight and time, as time passes, weight increases steadily]
-#------------------------------------------------------------------------
   
   
 # ==============================================================================
