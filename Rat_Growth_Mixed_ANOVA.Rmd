@@ -28,7 +28,6 @@ knitr::opts_chunk$set(
 
 **Authors:**  Ayap, Princess Amberlin Mae | Domingo, Margaret | Ferrer, Phoebe Anne | Gamido, Dhen Angelo | Pepito, Yvonna Roselle (Section 4)
 
-**November 22, 2026**
 ---
 
 # Introduction and Research Objectives
