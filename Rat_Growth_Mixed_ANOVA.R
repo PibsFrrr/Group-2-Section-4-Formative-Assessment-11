@@ -100,7 +100,24 @@ rats_stat_2WMAnova$`Sphericity Corrections`
 # Part 4: Mixed-Design Repeated Measures ANOVA
 # ==============================================================================
 
+# Fit two-way mixed-design repeated measures ANOVA
+rats_stat_2WMAnova <- rstatix::anova_test(
+  data = rats,
+  dv = y,
+  wid = id,
+  between = trt,
+  within = time
+)
 
+# Display full ANOVA output and Mauchly's Test of Sphericiity
+rats_stat_2WMAnova
+
+#Display Mauchly's test and Sphericity corrections explicitly
+rats_stat_2WMAnova$`Mauchly's Test for Sphericity`
+rats_stat_2WMAnova$`Sphericity Corrections`
+
+#Extract Greenhouse-Geisser corrected ANOVA table
+rstatix::get_anova_table(rats_stat_2WMAnova)
 
 # ==============================================================================
 # Part 5: Post Hoc Analysis & Interaction Decomposition
