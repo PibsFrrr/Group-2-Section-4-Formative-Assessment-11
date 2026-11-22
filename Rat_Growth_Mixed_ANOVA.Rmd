@@ -48,18 +48,15 @@ To determine whether rat body weight differs significantly across treatment grou
 # 1. Data Preparation and Exploration
 
 install.packages(c("nlmm", "tidyverse", "rstatix", "ggpubr")) 
-
+### 
 ```{r load-data} 
-# 1. Load required libraries
 library(nlmm)
 library(tidyverse)
 library(rstatix)
 library(ggpubr)
-
-# 2. Load dataset
+###
 data("rats", package = "nlmm")
-
-# 3. Format factor variables with clear labels
+###
 rats <- rats %>%
   mutate(
     id = factor(id),
@@ -85,18 +82,13 @@ table(rats$trt)
 ### Guide Question Answer
 
 - **Why is the dataset in long format?**\
-  *[Dependent variable: Body Weight (y)
-    Experimental unit: ID
-    Between-Subjects: Treatment type 
-    Within-Subjects: Weeks/Time
-
-Answers to Guide questions: The data-set is in long format because there are repeating values found in column one, the subject identifier. ID is necessary is order to compare the changes in a participant as time passes, since the data-set aims to compare weekly changes in weight gain depending on treatment type. 
-]* 
+  *[Answers to Guide questions: The data-set is in long format because there are repeating values found in column one, the subject identifier. ID is necessary is order to compare the changes in a participant as time passes, since the data-set aims to compare weekly changes in weight gain depending on treatment type.]*  
 ------------------------------------------------------------------------
 
 # 2. Descriptive Statistics & Data Visualization
 
 rstatix::get_summary_stats(y, type = "mean_sd") 
+
 
 
 ------------------------------------------------------------------------
