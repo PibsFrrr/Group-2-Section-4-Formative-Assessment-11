@@ -98,7 +98,6 @@ rats %>%
 # - Growth Patterns per Group: [Control group had a weight gain from between 50kg to over 155kg from weeks 0 to 4, Thiouracil treatment had a weight gain spanning from 50kg to 125kg from weeks 0 to 4, Thyroxin had a weight gain spanning from 50kg to above 155kg from weeks 0 to 4]
 # - Visual Evidence of Interaction: [Seen in the interacton plot that there is a positive relationship between weight and time, as time passes, weight increases steadily]
   
-  
 # ==============================================================================
 # Part 3: Assumption Checking
 # ==============================================================================
@@ -289,3 +288,12 @@ for (t in treatments) {
 # Part 6: APA-Style Interpretation & Conclusion
 # ==============================================================================
 
+
+
+# ==============================================================================
+# References
+# ==============================================================================
+
+# - Box, G. E. P. (1950). Problems in the analysis of growth and wear curves. *Biometrics, 6*(4), 362–389.
+# - Kassambara, A. (2023). *rstatix: Pipe-Friendly Framework for Basic Statistical Tests*. R package.
+# - Lapointe, N. (2020). *nlmm: Generalized Linear Mixed-Effects Models*. R package dataset `rats`.
