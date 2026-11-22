@@ -148,6 +148,88 @@ The majority of the dataset met the assumptions for a mixed-design ANOVA, althou
 
 # 5. Assumption Checking
 
+# 5. Post Hoc Analysis and Interaction Decomposition
+
+## 5.1 Treatment Differences per Week
+
+Simple one-way ANOVAs and Tukey's HSD pairwise comparisons were performed to determine whether significant differences existed among treatment groups at each observation week.
+
+```{r treatment-differences}
+weeks <- levels(rats$time)
+
+for (wk in weeks) {
+
+  cat("\n====================================\n")
+  cat("RESULTS FOR", wk, "\n")
+  cat("====================================\n")
+
+  week_data <- subset(rats, time == wk)
+
+  model <- aov(y ~ trt, data = week_data)
+
+  cat("\nOne-way ANOVA:\n")
+  print(summary(model))
+
+  cat("\nTukey's HSD Pairwise Comparisons:\n")
+  print(TukeyHSD(model))
+}
+```
+
+### Interpretation
+
+No significant treatment differences were observed during Weeks 0, 1, and 2. Although Week 2 was close to the 0.05 significance level (p = 0.0599), it was not statistically significant.
+
+Significant treatment differences emerged during Week 3 (p = 0.000678) and Week 4 (p = 0.0000182). Tukey's HSD results showed that Thiouracil differed significantly from both Control and Thyroxin during these later weeks. Control and Thyroxin did not significantly differ.
+
+## 5.2 Time Differences per Treatment
+
+Repeated-measures ANOVAs were conducted separately for each treatment group, followed by Holm-adjusted paired t-tests to determine which observation weeks differed significantly.
+
+```{r time-differences}
+rats <- rats[order(rats$trt, rats$id, rats$time), ]
+
+treatments <- levels(rats$trt)
+
+for (t in treatments) {
+
+  cat("\n====================================\n")
+  cat("RESULTS FOR", t, "\n")
+  cat("====================================\n")
+
+  treatment_data <- subset(rats, trt == t)
+
+  cat("\nRepeated-Measures ANOVA:\n")
+
+  model <- aov(y ~ time + Error(id/time), data = treatment_data)
+
+  print(summary(model))
+
+  cat("\nHolm-Adjusted Paired t-tests:\n")
+
+  pairwise_results <- pairwise.t.test(
+    x = treatment_data$y,
+    g = treatment_data$time,
+    paired = TRUE,
+    p.adjust.method = "holm"
+  )
+
+  print(pairwise_results)
+}
+```
+
+### Interpretation
+
+**Control:** Significant changes were observed across time, F(4,36) = 398.8, p < 0.001. All pairwise week comparisons were significant after Holm adjustment.
+
+**Thiouracil:** Significant changes were observed across time, F(4,36) = 225.1, p < 0.001. All pairwise week comparisons were significant after Holm adjustment.
+
+**Thyroxin:** Significant changes were observed across time, F(4,24) = 160.9, p < 0.001. All pairwise week comparisons were significant after Holm adjustment.
+
+## 5.3 Overall Interpretation
+
+The simple main effects analyses showed that treatment differences were not significant during Weeks 0, 1, and 2 but became significant during Weeks 3 and 4. In particular, the Thiouracil group differed significantly from the Control and Thyroxin groups during the later observation weeks.
+
+Meanwhile, all three treatment groups showed significant changes over time. These findings suggest that the treatment trajectories diverged over the five-week period, particularly involving the Thiouracil group.
 
 ------------------------------------------------------------------------
 
