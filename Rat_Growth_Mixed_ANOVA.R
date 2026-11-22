@@ -13,17 +13,16 @@
 # Part 1: Data Preparation & Exploration
 # ==============================================================================
 
-```{r load-data}
-# 1. Load required libraries
+# 1.1 Load required libraries
 library(nlmm)
 library(tidyverse)
 library(rstatix)
 library(ggpubr)
 
-# 2. Load dataset
+# 1.2 Load dataset
 data("rats", package = "nlmm")
 
-# 3. Format factor variables with clear labels
+# 1.3 Format factor variables with clear labels
 rats <- rats %>%
   mutate(
     id = factor(id),
@@ -39,34 +38,28 @@ rats <- rats %>%
     )
   )
 
-# 4. Inspect data structure
+# 1.4 Inspect data structure
 str(rats)
 dim(rats)
 head(rats)
 table(rats$trt)
-```
 
-### Guide Question Answer
+# Guide Question Answer
 
-- **Why is the dataset in long format?**\
-  *[Answers to Guide questions: The data-set is in long format because there are repeating values found in column one, the subject identifier. ID is necessary is order to compare the changes in a participant as time passes, since the data-set aims to compare weekly changes in weight gain depending on treatment type. 
-]*  
+# - Why is the dataset in long format?
+#   Answers to Guide questions: The data-set is in long format because there are repeating values found in column one, the subject identifier. ID is necessary is order to compare the changes in a participant as time passes, since the data-set aims to compare weekly changes in weight gain depending on treatment type. 
 
 # ==============================================================================
 # Part 2: Descriptive Statistics & Data Visualization
 # ==============================================================================
 
-## 2.1 Descriptive Summary
-
-```{r descriptive-stats}
+# 2.1 Descriptive Summary
 rats %>%
   group_by(trt, time) %>%
   get_summary_stats(y, type = "mean_sd")
 
-```
-## 2.2 Visualizations
+# 2.2 Visualizations
 
-```{r boxplot}
 # Boxplot across time points by treatment group
 ggboxplot(
   rats,
@@ -82,8 +75,7 @@ ggboxplot(
     y = "Body Weight (grams)",
     color = "Treatment"
   )
-``` 
-```{r interaction-plot}
+
 # Interaction plot of mean body weights over time
 rats %>%
   group_by(trt, time) %>%
@@ -98,13 +90,12 @@ rats %>%
     color = "Treatment"
   ) +
   theme_minimal()
-```
 
-### Guide Questions Answers
+# Guide Questions Answers
 
-- **Baseline Highest Average:** *[Control=50kg, Thiouracil=50kg]*
-- **Growth Patterns per Group:** *[Control group had a weight gain from between 50kg to over 155kg from weeks 0 to 4, Thiouracil treatment had a weight gain spanning from 50kg to 125kg from weeks 0 to 4, Thyroxin had a weight gain spanning from 50kg to above 155kg from weeks 0 to 4]*
-- **Visual Evidence of Interaction:** *[Seen in the interacton plot that there is a positive relationship between weight and time, as time passes, weight increases steadily]* 
+# - Baseline Highest Average: [Control=50kg, Thiouracil=50kg]
+# - Growth Patterns per Group: [Control group had a weight gain from between 50kg to over 155kg from weeks 0 to 4, Thiouracil treatment had a weight gain spanning from 50kg to 125kg from weeks 0 to 4, Thyroxin had a weight gain spanning from 50kg to above 155kg from weeks 0 to 4]
+# - Visual Evidence of Interaction: [Seen in the interacton plot that there is a positive relationship between weight and time, as time passes, weight increases steadily]
 ------------------------------------------------------------------------
 
 
@@ -112,7 +103,7 @@ rats %>%
 # Part 3: Assumption Checking
 # ==============================================================================
 
-# 1. Normality: Shapiro-Wilk test per cell (trt x time) and Q-Q plots
+# 3.1 Normality: Shapiro-Wilk test per cell (trt x time) and Q-Q plots
 rats %>%
   group_by(trt, time) %>%
   shapiro_test(y)
@@ -120,23 +111,23 @@ rats %>%
 ggqqplot(rats, "y", ggtheme = theme_bw()) +
   facet_grid(time ~ trt)
 
-# 2. Outliers Check
+# 3.2 Outliers Check
 rats %>%
   group_by(trt, time) %>%
   identify_outliers(y)
 
-# 3. Homogeneity of Variances: Levene's test at each measurement occasion
+# 3.3 Homogeneity of Variances: Levene's test at each measurement occasion
 rats %>%
   group_by(time) %>%
   levene_test(y ~ trt)
 
-# 4. Homogeneity of Covariance Matrices: Box's M test on wide-format data using α = 0.001
+# 3.4 Homogeneity of Covariance Matrices: Box's M test on wide-format data using α = 0.001
 rats_wide <- rats %>%
   pivot_wider(id_cols = c(id, trt), names_from = time, values_from = y)
 
 box_m(rats_wide[, -c(1, 2)], rats_wide$trt)
 
-# 5. Sphericity: Mauchly's test and Greenhouse-Geisser correction
+# 3.5 Sphericity: Mauchly's test and Greenhouse-Geisser correction
 rats_stat_2WMAnova <- rstatix::anova_test(data = rats, dv = y, wid = id, between = trt, within = time)
 
 rats_stat_2WMAnova$`Mauchly's Test for Sphericity`
@@ -150,7 +141,7 @@ rats_stat_2WMAnova$`Sphericity Corrections`
 # Part 4: Mixed-Design Repeated Measures ANOVA
 # ==============================================================================
 
-# Fit two-way mixed-design repeated measures ANOVA
+# 4.1 Fit two-way mixed-design repeated measures ANOVA
 rats_stat_2WMAnova <- rstatix::anova_test(
   data = rats,
   dv = y,
@@ -159,14 +150,14 @@ rats_stat_2WMAnova <- rstatix::anova_test(
   within = time
 )
 
-# Display full ANOVA output and Mauchly's Test of Sphericiity
+# 4.2 Display full ANOVA output and Mauchly's Test of Sphericiity
 rats_stat_2WMAnova
 
-#Display Mauchly's test and Sphericity corrections explicitly
+# 4.3 Display Mauchly's test and Sphericity corrections explicitly
 rats_stat_2WMAnova$`Mauchly's Test for Sphericity`
 rats_stat_2WMAnova$`Sphericity Corrections`
 
-#Extract Greenhouse-Geisser corrected ANOVA table
+# 4.4 Extract Greenhouse-Geisser corrected ANOVA table
 rstatix::get_anova_table(rats_stat_2WMAnova)
 
 # ==============================================================================
