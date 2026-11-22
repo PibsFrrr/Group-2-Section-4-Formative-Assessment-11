@@ -96,9 +96,9 @@ rats %>%
 # - Baseline Highest Average: [Control=50kg, Thiouracil=50kg]
 # - Growth Patterns per Group: [Control group had a weight gain from between 50kg to over 155kg from weeks 0 to 4, Thiouracil treatment had a weight gain spanning from 50kg to 125kg from weeks 0 to 4, Thyroxin had a weight gain spanning from 50kg to above 155kg from weeks 0 to 4]
 # - Visual Evidence of Interaction: [Seen in the interacton plot that there is a positive relationship between weight and time, as time passes, weight increases steadily]
-------------------------------------------------------------------------
-
-
+#------------------------------------------------------------------------
+  
+  
 # ==============================================================================
 # Part 3: Assumption Checking
 # ==============================================================================
@@ -173,18 +173,18 @@ rstatix::get_anova_table(rats_stat_2WMAnova)
 weeks <- levels(rats$time)
 
 for (wk in weeks) {
-
+  
   cat("\n====================================\n")
   cat("RESULTS FOR", wk, "\n")
   cat("====================================\n")
-
+  
   week_data <- subset(rats, time == wk)
-
+  
   model <- aov(y ~ trt, data = week_data)
-
+  
   cat("\nOne-way ANOVA:\n")
   print(summary(model))
-
+  
   cat("\nTukey's HSD Pairwise Comparisons:\n")
   print(TukeyHSD(model))
 }
@@ -221,28 +221,28 @@ rats <- rats[order(rats$trt, rats$id, rats$time), ]
 treatments <- levels(rats$trt)
 
 for (t in treatments) {
-
+  
   cat("\n====================================\n")
   cat("RESULTS FOR", t, "\n")
   cat("====================================\n")
-
+  
   treatment_data <- subset(rats, trt == t)
-
+  
   cat("\nRepeated-Measures ANOVA:\n")
-
+  
   model <- aov(y ~ time + Error(id/time), data = treatment_data)
-
+  
   print(summary(model))
-
+  
   cat("\nHolm-Adjusted Paired t-tests:\n")
-
+  
   pairwise_results <- pairwise.t.test(
     x = treatment_data$y,
     g = treatment_data$time,
     paired = TRUE,
     p.adjust.method = "holm"
   )
-
+  
   print(pairwise_results)
 }
 
@@ -288,5 +288,4 @@ for (t in treatments) {
 # ==============================================================================
 # Part 6: APA-Style Interpretation & Conclusion
 # ==============================================================================
-
 
