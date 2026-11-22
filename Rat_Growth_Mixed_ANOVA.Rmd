@@ -75,8 +75,7 @@ rats <- rats %>%
 # Inspect data structure
 str(rats)
 dim(rats)
-head(rats)
-knitr::kable(rats) 
+knitr::kable(rats)
 table(rats$trt)
 ```
 
@@ -317,3 +316,9 @@ Meanwhile, all three treatment groups showed significant changes over time. Thes
 
 
 ------------------------------------------------------------------------
+
+# References
+
+- Box, G. E. P. (1950). Problems in the analysis of growth and wear curves. *Biometrics, 6*(4), 362–389.
+- Kassambara, A. (2023). *rstatix: Pipe-Friendly Framework for Basic Statistical Tests*. R package.
+- Lapointe, N. (2020). *nlmm: Generalized Linear Mixed-Effects Models*. R package dataset `rats`.
