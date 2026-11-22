@@ -314,10 +314,10 @@ Meanwhile, all three treatment groups showed significant changes over time. Thes
 
 # 6. APA-Style Interpretation & Conclusion
 
-## APA-Style Results and Interpretation
+### APA-Style Results and Interpretation
 [A two-way mixed-design repeated measures ANOVA was conducted to examine the effects of treatment (Control, Thiouracil, Thyroxin) and time (Weeks 0–4) on rat body weight ($N = 27$). There was a [significant/non-significant] main effect of treatment, $F(\text{df}_1, \text{df}_2) = \text{[Value]}, p = \text{[Value]}, \eta^2_G = \text{[Value]}$, and a statistically significant main effect of time, $F(\text{df}_1, \text{df}_2) = \text{[Value]}, p = \text{[Value]}, \eta^2_G = \text{[Value]}$. Crucially, these main effects were qualified by a statistically significant Treatment × Time interaction, $F(\text{df}_1, \text{df}_2) = \text{[Value]}, p = \text{[Value]}, \eta^2_G = \text{[Value]}$. Post hoc simple main effects analyses revealed that while treatment groups did not differ significantly at baseline (Week 0), significant divergence emerged by [Week X], where rats treated with Thiouracil exhibited significantly lower weight gain compared to the Control and Thyroxin groups ($p < .05$). Biologically, Thiouracil acts as an antithyroid agent that suppresses thyroid hormone synthesis and slows metabolic growth rate in rats, whereas Thyroxin maintains growth rates comparable to untreated controls. Because this experiment was conducted solely on laboratory rats, these findings should not be generalized directly to human health.]
 
-## Conclusion
+### Conclusion
 In answer to the central research question, yes—the effect of treatment on rat body weight depends significantly on the measurement occasion. While all groups begin at comparable baseline weights, growth trajectories diverge over the four-week period due to the growth-suppressing effect of Thiouracil relative to Control and Thyroxin treatments.
 
 ------------------------------------------------------------------------
