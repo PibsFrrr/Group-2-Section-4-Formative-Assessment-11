@@ -13,7 +13,44 @@
 # Part 1: Data Preparation & Exploration
 # ==============================================================================
 
+```{r load-data}
+# 1. Load required libraries
+library(nlmm)
+library(tidyverse)
+library(rstatix)
+library(ggpubr)
 
+# 2. Load dataset
+data("rats", package = "nlmm")
+
+# 3. Format factor variables with clear labels
+rats <- rats %>%
+  mutate(
+    id = factor(id),
+    trt = factor(
+      trt,
+      levels = c(1, 2, 3),
+      labels = c("Control", "Thiouracil", "Thyroxin")
+    ),
+    time = factor(
+      time,
+      levels = 0:4,
+      labels = c("Week 0", "Week 1", "Week 2", "Week 3", "Week 4")
+    )
+  )
+
+# 4. Inspect data structure
+str(rats)
+dim(rats)
+head(rats)
+table(rats$trt)
+```
+
+### Guide Question Answer
+
+- **Why is the dataset in long format?**\
+  *[Answers to Guide questions: The data-set is in long format because there are repeating values found in column one, the subject identifier. ID is necessary is order to compare the changes in a participant as time passes, since the data-set aims to compare weekly changes in weight gain depending on treatment type. 
+]*  
 
 # ==============================================================================
 # Part 2: Descriptive Statistics & Data Visualization
