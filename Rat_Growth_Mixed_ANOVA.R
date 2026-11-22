@@ -69,7 +69,123 @@ rats_stat_2WMAnova$`Sphericity Corrections`
 # Part 5: Post Hoc Analysis & Interaction Decomposition
 # ==============================================================================
 
+# 5.1 Treatment Differences per Week
+# Simple One-Way ANOVA and Tukey's HSD
 
+weeks <- levels(rats$time)
+
+for (wk in weeks) {
+
+  cat("\n====================================\n")
+  cat("RESULTS FOR", wk, "\n")
+  cat("====================================\n")
+
+  week_data <- subset(rats, time == wk)
+
+  model <- aov(y ~ trt, data = week_data)
+
+  cat("\nOne-way ANOVA:\n")
+  print(summary(model))
+
+  cat("\nTukey's HSD Pairwise Comparisons:\n")
+  print(TukeyHSD(model))
+}
+
+# INTERPRETATION: TREATMENT DIFFERENCES PER WEEK
+
+# Week 0: No significant treatment differences
+# were observed (p = 0.792).
+#
+# Week 1: No significant treatment differences
+# were observed (p = 0.769).
+#
+# Week 2: No significant treatment differences
+# were observed (p = 0.0599), although the result
+# was close to the 0.05 significance level.
+#
+# Week 3: Significant treatment differences were
+# observed (p = 0.000678). Thiouracil differed
+# significantly from Control and Thyroxin.
+#
+# Week 4: Significant treatment differences were
+# observed (p = 0.0000182). Thiouracil again
+# differed significantly from Control and Thyroxin.
+#
+# Control and Thyroxin did not significantly
+# differ during Weeks 3 and 4.
+
+
+# 5.2 Time Differences per Treatment
+# Repeated-Measures ANOVA and Holm-Adjusted Paired t-tests
+
+rats <- rats[order(rats$trt, rats$id, rats$time), ]
+
+treatments <- levels(rats$trt)
+
+for (t in treatments) {
+
+  cat("\n====================================\n")
+  cat("RESULTS FOR", t, "\n")
+  cat("====================================\n")
+
+  treatment_data <- subset(rats, trt == t)
+
+  cat("\nRepeated-Measures ANOVA:\n")
+
+  model <- aov(y ~ time + Error(id/time), data = treatment_data)
+
+  print(summary(model))
+
+  cat("\nHolm-Adjusted Paired t-tests:\n")
+
+  pairwise_results <- pairwise.t.test(
+    x = treatment_data$y,
+    g = treatment_data$time,
+    paired = TRUE,
+    p.adjust.method = "holm"
+  )
+
+  print(pairwise_results)
+}
+
+# INTERPRETATION: TIME DIFFERENCES PER TREATMENT
+
+# Control:
+# Significant changes were observed across time
+# (F(4,36) = 398.8, p < 0.001).
+# All pairwise week comparisons were significant
+# after Holm adjustment.
+#
+# Thiouracil:
+# Significant changes were observed across time
+# (F(4,36) = 225.1, p < 0.001).
+# All pairwise week comparisons were significant
+# after Holm adjustment.
+#
+# Thyroxin:
+# Significant changes were observed across time
+# (F(4,24) = 160.9, p < 0.001).
+# All pairwise week comparisons were significant
+# after Holm adjustment.
+
+
+# 5.3 OVERALL INTERPRETATION: INTERACTION DECOMPOSITION
+
+# The simple main effects analyses showed that
+# treatment differences were not significant
+# during Weeks 0, 1, and 2 but became significant
+# during Weeks 3 and 4.
+#
+# In particular, the Thiouracil group differed
+# significantly from the Control and Thyroxin
+# groups during the later observation weeks.
+#
+# Meanwhile, all three treatment groups showed
+# significant changes over time.
+#
+# These findings suggest that the treatment
+# trajectories diverged over the five-week period,
+# particularly involving the Thiouracil group
 
 # ==============================================================================
 # Part 6: APA-Style Interpretation & Conclusion
