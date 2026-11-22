@@ -47,6 +47,8 @@ To determine whether rat body weight differs significantly across treatment grou
 
 # 1. Data Preparation and Exploration
 
+install.packages(c("nlmm", "tidyverse", "rstatix", "ggpubr")) 
+
 ```{r load-data} 
 # 1. Load required libraries
 library(nlmm)
