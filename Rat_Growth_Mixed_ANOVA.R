@@ -42,6 +42,7 @@ rats <- rats %>%
 str(rats)
 dim(rats)
 head(rats)
+head.matrix(rats, n = 135) 
 table(rats$trt)
 
 # Guide Question Answer
