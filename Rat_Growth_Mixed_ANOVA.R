@@ -42,7 +42,7 @@ rats <- rats %>%
 str(rats)
 dim(rats)
 head(rats)
-head.matrix(rats, n = 135) 
+knitr::kable(rats) 
 table(rats$trt)
 
 # Guide Question Answer
