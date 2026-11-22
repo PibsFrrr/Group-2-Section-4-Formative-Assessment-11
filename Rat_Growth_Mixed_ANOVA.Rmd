@@ -197,7 +197,7 @@ rats_stat_2WMAnova\$`Sphericity Corrections`
 The majority of the dataset met the assumptions for a mixed-design ANOVA, although on sphericity the Greenhouse-Geisser correction was applied. Normality was met across 14 out of 15 treatment-by-time cells ($p > 0.05$), there was a single data that stood out a bit (in Treatment 3 at Week 1 ($W = 0.789, p = 0.0318$)), although since the Q-Q plots still aligned well overall and mixed ANOVA handles slight normality deviations, this assumption holds. Rat `id = 19` (Treatment 2) had two outliers at Week 1 ($y = 61$) and Week 2 ($y = 78$), although neither was tagged as extreme (`is.extreme = FALSE`), so technically no extreme outliers came from this dataset. Both homogeneity of variances (Levene's test, $p = 0.124\text{–}0.672$) and homogeneity of covariance matrices (Box's M test, $\chi^2(30) = 22.4, p = 0.839$ at $\alpha = 0.001$) were satisfied. Finally, Mauchly's test was significant ($W = 0.011, p = 1.41 \times 10^{-17} < 0.05$), which meant sphericity was violated and the Greenhouse-Geisser correction ($\varepsilon = 0.342$) was applied to the within-subjects ANOVA results.
 ------------------------------------------------------------------------
 
-# 4. Assumption Checking
+# 4. Mixed-Design Repeated Measures ANOVA
 
 ```{r mixed-anova}
 # Fit two-way mixed-design repeated measures ANOVA
@@ -225,8 +225,6 @@ rstatix::get_anova_table(rats_stat_2WMAnova)
 3. **Treatment $\Time$ Interaction (`trt:time`):** There was a significant interaction emerged between treatment group and measurement occasion under the Greenhouse-Geisser correction, $F(2.74,32.84)=19.28$, $p<.001$, $\eta_G^2 = .159$. This confirms that the rate and pattern of rat body weight growth across the four weeks depended significantly on the treatment condition, warranting simple main effects decomposition below.
 
 ------------------------------------------------------------------------
-
-# 5. Assumption Checking
 
 # 5. Post Hoc Analysis and Interaction Decomposition
 
