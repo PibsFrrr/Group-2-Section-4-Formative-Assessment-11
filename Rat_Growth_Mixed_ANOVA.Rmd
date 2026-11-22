@@ -1,7 +1,6 @@
 ---
 title: "Formative Assessment 11: Mixed-Design Repeated Measures ANOVA"
-subtitle: "BIO2105 (Section 4) - Biostatistics"
-authors: " Ayap, Princess Amberlin Mae | Domingo, Margaret | Ferrer, Phoebe Anne | Gamido, Dhen Angelo | Pepito, Yvonna Roselle"
+subtitle: "BIO2105 (Section 4 - Group 2) - Biostatistics"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -10,6 +9,10 @@ output:
     theme: flatly
     highlight: tango
     code_folding: show
+  pdf_document:
+    toc: true
+authors: ' Ayap, Princess Amberlin Mae | Domingo, Margaret | Ferrer, Phoebe Anne |
+  Gamido, Dhen Angelo | Pepito, Yvonna Roselle'
 ---
 
 ```{r setup, include=FALSE}
@@ -22,9 +25,6 @@ knitr::opts_chunk$set(
   fig.align = "center"
 )
 ```
-
-# Formative Assessment 11: Mixed-Design Repeated Measures ANOVA
-## BIO2105 - Group 2 - Biostatistics
 
 **Authors:**  Ayap, Princess Amberlin Mae | Domingo, Margaret | Ferrer, Phoebe Anne | Gamido, Dhen Angelo | Pepito, Yvonna Roselle (Section 4)
 
@@ -48,16 +48,16 @@ To determine whether rat body weight differs significantly across treatment grou
 # 1. Data Preparation and Exploration
 
 ```{r load-data}
-# 1.1 Load required libraries
+# Load required libraries
 library(nlmm)
 library(tidyverse)
 library(rstatix)
 library(ggpubr)
 
-# 1.2 Load dataset
+# Load dataset
 data("rats", package = "nlmm")
 
-# 1.3 Format factor variables with clear labels
+# Format factor variables with clear labels
 rats <- rats %>%
   mutate(
     id = factor(id),
@@ -73,7 +73,7 @@ rats <- rats %>%
     )
   )
 
-# 1.4 Inspect data structure
+# Inspect data structure
 str(rats)
 dim(rats)
 head(rats)
@@ -89,7 +89,7 @@ table(rats$trt)
 
 # 2. Descriptive Statistics and Data Visualization
 
-## 2.1 Descriptive Summary
+### 2.1 Descriptive Summary
 
 ```{r descriptive-stats}
 rats %>%
@@ -98,7 +98,7 @@ rats %>%
 
 ```
 
-## 2.2 Visualizations
+### 2.2 Visualizations
 
 ```{r boxplot}
 # Boxplot across time points by treatment group
@@ -140,11 +140,12 @@ rats %>%
 - **Baseline Highest Average:** *[Control=50kg, Thiouracil=50kg]*
 - **Growth Patterns per Group:** *[Control group had a weight gain from between 50kg to over 155kg from weeks 0 to 4, Thiouracil treatment had a weight gain spanning from 50kg to 125kg from weeks 0 to 4, Thyroxin had a weight gain spanning from 50kg to above 155kg from weeks 0 to 4]*
 - **Visual Evidence of Interaction:** *[Seen in the interacton plot that there is a positive relationship between weight and time, as time passes, weight increases steadily]* 
+
 ------------------------------------------------------------------------
 
 # 3. Assumption Checking
 
-## 3.1 Normality: Shapiro-Wilk test per cell (trt x time) and Q-Q plots
+### 3.1 Normality: Shapiro-Wilk test per cell (trt x time) and Q-Q plots
 
 ```{r normality-test}
 rats %>%
@@ -155,7 +156,7 @@ ggqqplot(rats, "y", ggtheme = theme_bw()) +
   facet_grid(time ~ trt)
 ```
 
-## 3.2 Outliers Check
+### 3.2 Outliers Check
 
 ```{r outliers-check}
 rats %>%
@@ -163,7 +164,7 @@ rats %>%
   identify_outliers(y)
 ```
 
-## 3.3 Homogeneity of Variances: Levene's test at each measurement occasion
+### 3.3 Homogeneity of Variances: Levene's test at each measurement occasion
 
 ```{r levenes-test}
 rats %>%
@@ -171,37 +172,38 @@ rats %>%
   levene_test(y ~ trt)
 ```
 
-## 3.4 Homogeneity of Covariance Matrices: Box's M test on wide-format data using α = 0.001
+### 3.4 Homogeneity of Covariance Matrices: Box's M test on wide-format data using α = 0.001
 
 ```{r box-m-test}
 rats_wide <- rats %>%
   pivot_wider(id_cols = c(id, trt), names_from = time, values_from = y)
 
-box_m(rats_wide[, -c(1, 2)], rats_wide\$trt)
+box_m(rats_wide[, -c(1, 2)], rats_wide$trt)
 ```
 
-## 3.5 Sphericity Test and Greenhouse-Geisser Correction
+### 3.5 Sphericity Test and Greenhouse-Geisser Correction
 
 ```{r sphericity-test}
 rats_stat_2WMAnova <- rstatix::anova_test(data = rats, dv = y, wid = id, between = trt, within = time)
 
-rats_stat_2WMAnova\$`Mauchly's Test for Sphericity`
+rats_stat_2WMAnova$`Mauchly's Test for Sphericity`
 
 # If p > 0.05, sphericity is met (no correction needed)
 # Since Mauchly's test yielded a p = 1.41e-17 (p < 0.001) < 0.05, sphericity was violated therefore below is Greenhouse-Geisser correction being applied.
-rats_stat_2WMAnova\$`Sphericity Corrections`
+rats_stat_2WMAnova$`Sphericity Corrections`
 ```
 
-## 4.5 Summary of Assumptions
+### 4.5 Summary of Assumptions
 
 The majority of the dataset met the assumptions for a mixed-design ANOVA, although on sphericity the Greenhouse-Geisser correction was applied. Normality was met across 14 out of 15 treatment-by-time cells ($p > 0.05$), there was a single data that stood out a bit (in Treatment 3 at Week 1 ($W = 0.789, p = 0.0318$)), although since the Q-Q plots still aligned well overall and mixed ANOVA handles slight normality deviations, this assumption holds. Rat `id = 19` (Treatment 2) had two outliers at Week 1 ($y = 61$) and Week 2 ($y = 78$), although neither was tagged as extreme (`is.extreme = FALSE`), so technically no extreme outliers came from this dataset. Both homogeneity of variances (Levene's test, $p = 0.124\text{–}0.672$) and homogeneity of covariance matrices (Box's M test, $\chi^2(30) = 22.4, p = 0.839$ at $\alpha = 0.001$) were satisfied. Finally, Mauchly's test was significant ($W = 0.011, p = 1.41 \times 10^{-17} < 0.05$), which meant sphericity was violated and the Greenhouse-Geisser correction ($\varepsilon = 0.342$) was applied to the within-subjects ANOVA results.
+
 ------------------------------------------------------------------------
 
 # 4. Mixed-Design Repeated Measures ANOVA
 
 ```{r mixed-anova}
-# 4.1 Fit two-way mixed-design repeated measures ANOVA
-rats_stat_2WMAnova <- rstatic::anova_test(
+# Fit two-way mixed-design repeated measures ANOVA
+rats_stat_2WMAnova <- rstatix::anova_test(
   data = rats,
   dv = y,
   wid = id,
@@ -209,10 +211,10 @@ rats_stat_2WMAnova <- rstatic::anova_test(
   within = time
 )
 
-# 4.2 Display complete ANOVA output
+# Display complete ANOVA output
 rats_stat_2WMAnova
 
-# 4.3 Display Greenhouse_Geisser corrected ANOVA table
+# Display Greenhouse_Geisser corrected ANOVA table
 rstatix::get_anova_table(rats_stat_2WMAnova)
 ```
 
@@ -228,7 +230,7 @@ rstatix::get_anova_table(rats_stat_2WMAnova)
 
 # 5. Post Hoc Analysis and Interaction Decomposition
 
-## 5.1 Treatment Differences per Week
+### 5.1 Treatment Differences per Week
 
 Simple one-way ANOVAs and Tukey's HSD pairwise comparisons were performed to determine whether significant differences existed among treatment groups at each observation week.
 
@@ -259,7 +261,7 @@ No significant treatment differences were observed during Weeks 0, 1, and 2. Alt
 
 Significant treatment differences emerged during Week 3 (p = 0.000678) and Week 4 (p = 0.0000182). Tukey's HSD results showed that Thiouracil differed significantly from both Control and Thyroxin during these later weeks. Control and Thyroxin did not significantly differ.
 
-## 5.2 Time Differences per Treatment
+### 5.2 Time Differences per Treatment
 
 Repeated-measures ANOVAs were conducted separately for each treatment group, followed by Holm-adjusted paired t-tests to determine which observation weeks differed significantly.
 
@@ -303,7 +305,7 @@ for (t in treatments) {
 
 **Thyroxin:** Significant changes were observed across time, F(4,24) = 160.9, p < 0.001. All pairwise week comparisons were significant after Holm adjustment.
 
-## 5.3 Overall Interpretation
+### 5.3 Overall Interpretation
 
 The simple main effects analyses showed that treatment differences were not significant during Weeks 0, 1, and 2 but became significant during Weeks 3 and 4. In particular, the Thiouracil group differed significantly from the Control and Thyroxin groups during the later observation weeks.
 
