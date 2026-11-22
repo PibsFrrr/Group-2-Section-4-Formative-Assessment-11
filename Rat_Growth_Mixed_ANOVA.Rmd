@@ -150,6 +150,30 @@ The majority of the dataset met the assumptions for a mixed-design ANOVA, althou
 
 # 4. Assumption Checking
 
+```{r mixed-anova}
+# Fit two-way mixed-design repeated measures ANOVA
+rats_stat_2WMAnova <- rstatic::anova_test(
+  data = rats,
+  dv = y,
+  wid = id,
+  between = trt,
+  within = time
+)
+
+# Display complete ANOVA output
+rats_stat_2WMAnova
+
+# Display Greenhouse_Geisser corrected ANOVA table
+rstatix::get_anova_table(rats_stat_2WMAnova)
+```
+
+### Interpretation
+
+1. **Main Effect of Treatment (`trt`):** Rat body weight varied significantly across treatment groups overall, F(2,24)=11.57, p<.001 (p=.00031), $\eta_G^2 = .453$. Averaged across all five measurement occasions, mean body weight differed significantly among the Control, Thiouracil, and Thyroxin groups.
+
+2. **Main Effect of Time (`time`):** After applying the Greenhouse-Geisser correction (=0.342) due to the violation of sphericity, there was a highly significant main effect of time on body weight, F(1.37,32.84)=656.82, p<.001, $\eta_G^2 = .761$, indicating substantial weight change from baseline (Week 0) through Week 4.
+
+3. **Treatment  Time Interaction (`trt:time`):** There was a significant interaction emerged between treatment group and measurement occasion under the Greenhouse-Geisser correction, F(2.74,32.84)=19.28, p<.001, $\eta_G^2 = .159$. This confirms that the rate and pattern of rat body weight growth across the four weeks depended significantly on the treatment condition, warranting simple main effects decomposition below.
 
 ------------------------------------------------------------------------
 
