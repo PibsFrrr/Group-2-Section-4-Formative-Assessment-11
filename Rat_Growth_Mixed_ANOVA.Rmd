@@ -47,13 +47,19 @@ To determine whether rat body weight differs significantly across treatment grou
 
 # 1. Assumption Checking
 
+# 2. Data Preparation and Exploration
+
+```{r load-data}
+# 1. Load required libraries
 library(nlmm)
 library(tidyverse)
 library(rstatix)
-library(ggpubr) 
+library(ggpubr)
 
-data("rats", package = "nlmm") 
+# 2. Load dataset
+data("rats", package = "nlmm")
 
+# 3. Format factor variables with clear labels
 rats <- rats %>%
   mutate(
     id = factor(id),
@@ -67,20 +73,14 @@ rats <- rats %>%
       levels = 0:4,
       labels = c("Week 0", "Week 1", "Week 2", "Week 3", "Week 4")
     )
-  ) 
+  )
 
+# 4. Inspect data structure
 str(rats)
 dim(rats)
 head(rats)
-table(rats$trt) 
-
-Dependent variable: Body Weight (y)
-Experimental unit: ID
-Between-Subjects: Treatement type 
-Within-Subjects: Weeks/Time
-
-Answers to Guide questions: The dataset is in long format because there are repeating values found in column one, the subject identifier. ID is neccessesary is order to compare the changes in a participant as time passes, since the dataset aims to compare weekly changes in weight gain depeding on treatment type. 
-
+table(rats$trt)
+``` 
 ------------------------------------------------------------------------
 
 # 2. Assumption Checking
